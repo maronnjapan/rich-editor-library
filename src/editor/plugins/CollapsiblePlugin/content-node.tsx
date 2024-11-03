@@ -15,7 +15,7 @@ import {
   LexicalNode,
   SerializedElementNode,
 } from 'lexical';
-import styles from './styles/style.module.css';
+import { styles } from './styles/styles';
 
 type SerializedCollapsibleContentNode = SerializedElementNode;
 

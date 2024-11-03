@@ -36,6 +36,7 @@ import { INSERT_LINK_PREVIEW_COMMAND } from '../LinkPreviewPlugin/command';
 function FloatingLinkEditor({
   editor,
   isLink,
+  canSetLinkPreview,
   setIsLink,
   anchorElem,
   isLinkEditMode,
@@ -43,6 +44,7 @@ function FloatingLinkEditor({
 }: {
   editor: LexicalEditor;
   isLink: boolean;
+  canSetLinkPreview: boolean;
   setIsLink: Dispatch<boolean>;
   anchorElem: HTMLElement;
   isLinkEditMode: boolean;
@@ -280,17 +282,20 @@ function FloatingLinkEditor({
             >
               <TbTrash></TbTrash>
             </div>
-            <div
-              className="link-trash"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                editor.dispatchCommand(INSERT_LINK_PREVIEW_COMMAND, { url: linkUrl });
-              }}
-            >
-              <TbCards></TbCards>
-            </div>
+            {
+              canSetLinkPreview ? <div
+                className="link-trash"
+                role="button"
+                tabIndex={0}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => {
+                  editor.dispatchCommand(INSERT_LINK_PREVIEW_COMMAND, { url: linkUrl });
+                }}
+              >
+                <TbCards></TbCards>
+              </div> : null
+            }
+
           </div>
         </div>
       )}
@@ -302,7 +307,8 @@ function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
   anchorElem: HTMLElement,
   isLinkEditMode: boolean,
-  setIsLinkEditMode: Dispatch<boolean>
+  setIsLinkEditMode: Dispatch<boolean>,
+  canSetLinkPreview: boolean
 ): JSX.Element | null {
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -380,6 +386,7 @@ function useFloatingLinkEditorToolbar(
       setIsLink={setIsLink}
       isLinkEditMode={isLinkEditMode}
       setIsLinkEditMode={setIsLinkEditMode}
+      canSetLinkPreview={canSetLinkPreview}
     />,
     anchorElem
   );
@@ -389,11 +396,13 @@ export default function FloatingLinkEditorPlugin({
   anchorElem = document.body,
   isLinkEditMode,
   setIsLinkEditMode,
+  canSetLinkPreview,
 }: {
   anchorElem?: HTMLElement;
   isLinkEditMode: boolean;
   setIsLinkEditMode: Dispatch<boolean>;
+  canSetLinkPreview: boolean;
 }): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
-  return useFloatingLinkEditorToolbar(editor, anchorElem, isLinkEditMode, setIsLinkEditMode);
+  return useFloatingLinkEditorToolbar(editor, anchorElem, isLinkEditMode, setIsLinkEditMode, canSetLinkPreview);
 }

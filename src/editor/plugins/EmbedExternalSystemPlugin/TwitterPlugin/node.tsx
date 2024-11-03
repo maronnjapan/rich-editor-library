@@ -67,6 +67,7 @@ function TweetComponent({
   const previousTweetIDRef = useRef<string>('');
   const [isTweetLoading, setIsTweetLoading] = useState(false);
 
+
   const createTweet = useCallback(async () => {
     try {
       // @ts-expect-error Twitter is attached to the window.
@@ -111,7 +112,7 @@ function TweetComponent({
   return (
     <BlockWithAlignableContents className={className} format={format} nodeKey={nodeKey}>
       {isTweetLoading ? loadingComponent : null}
-      <div style={{ display: 'inline-block', width: '550px' }} ref={containerRef} />
+      <div style={{ display: 'inline-block', width: '550px' }} ref={containerRef} id={tweetID} />
     </BlockWithAlignableContents>
   );
 }
@@ -170,8 +171,10 @@ export class TweetNode extends DecoratorBlockNode {
     const element = document.createElement('div');
     element.setAttribute('data-lexical-tweet-id', this.__id);
     element.setAttribute('data-lexical-tweet-url', this.__url);
-    const text = document.createTextNode(this.getTextContent());
-    element.append(text);
+    const tweetHtml = document.getElementById(this.__id)?.innerHTML;
+    // const text = document.createTextNode(this.getTextContent());
+    // element.append(text);
+    element.innerHTML = tweetHtml ?? ''
     return { element };
   }
 

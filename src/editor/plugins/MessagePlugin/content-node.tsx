@@ -14,7 +14,7 @@ import {
   Spread,
   TextNode,
 } from 'lexical';
-import styles from './styles/style.module.css';
+import { styles } from './styles/styles';
 
 export type MessageTypes = '' | 'alert' | 'warning';
 type SerializedMessageContentNode = Spread<{ messageType: MessageTypes }, SerializedElementNode>;
@@ -55,6 +55,12 @@ export class MessageContentNode extends ElementNode {
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
     element.classList.add(styles.Message__content);
+    if (this.getMessageType() === 'alert') {
+      element.classList.add(styles.Message__content_alert);
+    }
+    if (this.getMessageType() === 'warning') {
+      element.classList.add(styles.Message__content_warning);
+    }
     element.setAttribute('data-lexical-message-content', 'true');
     return { element };
   }
@@ -117,7 +123,7 @@ export class MessageContentNode extends ElementNode {
       let node = firstSelectionNode;
 
       const insertNodes = [];
-       
+
       while (true) {
         if ($isTextNode(node)) {
           insertNodes.push($createTextNode());

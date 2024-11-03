@@ -1,0 +1,1 @@
+export const styles = {"Collapsible__container":"Collapsible__container-b7bce7","Collapsible__title":"Collapsible__title-49da0f","Collapsible__content":"Collapsible__content-3dca44","Collapsible__collapsed":"Collapsible__collapsed-6bf42b"}

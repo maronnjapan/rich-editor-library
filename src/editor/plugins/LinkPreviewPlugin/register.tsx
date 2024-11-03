@@ -12,8 +12,12 @@ import {
 } from 'lexical';
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { $isAutoLinkNode } from '@lexical/link';
+import { LoadHtml } from './types';
 
-const LinkPreviewRegister = () => {
+export interface LinkPreviewRegisterProps {
+  loadHtml: LoadHtml
+}
+const LinkPreviewRegister = ({ loadHtml }: LinkPreviewRegisterProps) => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -27,13 +31,13 @@ const LinkPreviewRegister = () => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
           const parent = getSelectedNode(selection).getParent();
-          const node = $createLinkPreviewNode(payload);
+          const node = $createLinkPreviewNode(payload, loadHtml);
 
           if ($isAutoLinkNode(parent)) {
             parent.remove();
             const textNode = $createTextNode(payload.url);
             $insertNodes([textNode, $createParagraphNode()]);
-            textNode.replace($createLinkPreviewNode(payload));
+            textNode.replace($createLinkPreviewNode(payload, loadHtml));
           }
         }
         return true;

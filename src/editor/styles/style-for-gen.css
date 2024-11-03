@@ -201,12 +201,15 @@
 .table {
     border-width: 2px;
     width: max-content;
+    border-collapse: collapse;
 }
 
 .tableHeader {
     border-width: 2px;
+    background-color: #efefef;
 }
 
 .tableCell {
     border-width: 2px;
+    width: 75px;
 }

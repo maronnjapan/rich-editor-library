@@ -1,4 +1,3 @@
-import './styles/style.module.css';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister } from '@lexical/utils';

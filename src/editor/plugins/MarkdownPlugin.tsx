@@ -45,6 +45,7 @@ import {
 import { $isFigmaNode, FigmaNode } from './EmbedExternalSystemPlugin/FigmaPlugin/node';
 import { $isTweetNode, TweetNode } from './EmbedExternalSystemPlugin/TwitterPlugin/node';
 import { Permutation } from '../../utils/utility-type';
+import { LoadHtml } from './LinkPreviewPlugin/types';
 
 export const COLLAPSIBLE: ElementTransformer = {
   dependencies: [CollapsibleContainerNode, CollapsibleContentNode, CollapsibleTitleNode],
@@ -117,7 +118,7 @@ export const MESSAGE: ElementTransformer = {
   type: 'element',
 };
 
-export const LINK_CARD: ElementTransformer = {
+export const ONLY_EXPORT_LINK_CARD: ElementTransformer = {
   dependencies: [LinkPreviewNode],
   export: (node) => {
     if (!$isLinkPreviewNode(node)) {
@@ -126,14 +127,22 @@ export const LINK_CARD: ElementTransformer = {
 
     return '@[linkCard](' + node.getUrl() + ')';
   },
-  replace: (node, children, match) => {
-    const [, url] = match;
-    const linkPreviewNode = $createLinkPreviewNode({ url });
-    node.replace(linkPreviewNode);
+  replace: () => {
+
   },
   regExp: /@(?:\[linkCard\])(?:\(([^(]+)\))$/,
   type: 'element',
-};
+}
+
+export const generateLinkCard = (loadHtml: LoadHtml): ElementTransformer => ({
+  ...ONLY_EXPORT_LINK_CARD,
+  replace: (node, children, match) => {
+    const [, url] = match;
+    const linkPreviewNode = $createLinkPreviewNode({ url }, loadHtml);
+    node.replace(linkPreviewNode);
+  },
+
+});
 
 export const TABLE: ElementTransformer = {
   dependencies: [TableNode, TableRowNode, TableCellNode],
@@ -232,12 +241,13 @@ export const TRANSFORMER_PATTERNS = [
   FIGMA,
   TWITTER,
   COLLAPSIBLE,
-  LINK_CARD,
+  ONLY_EXPORT_LINK_CARD,
   MESSAGE,
   TABLE,
   ...TRANSFORMERS,
 ];
 
-export const MarkdownPlugin = () => {
-  return <MarkdownShortcutPlugin transformers={TRANSFORMER_PATTERNS}></MarkdownShortcutPlugin>;
+export const MarkdownPlugin = ({ loadHtml }: { loadHtml?: LoadHtml }) => {
+  const linkCard = loadHtml ? [generateLinkCard(loadHtml)] : []
+  return <MarkdownShortcutPlugin transformers={[...TRANSFORMER_PATTERNS, ...linkCard]}></MarkdownShortcutPlugin>;
 };

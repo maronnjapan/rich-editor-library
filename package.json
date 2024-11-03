@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "watch": "npm-watch",
-    "dev:gen": "npm run gen:css & vite",
+    "tailwind:watch": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "dev:gen": " vite & npm run gen:css & npm run tailwind:watch ",
     "build": " vite build",
     "lint": "eslint . --fix",
     "gen:css": "tsx generate-css.ts",

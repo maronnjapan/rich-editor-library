@@ -7,7 +7,7 @@ export const ImportPlugin = ({ content }: { content: string }) => {
     const editorState = editor.parseEditorState(content);
     editor.setEditorState(editorState);
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 
 

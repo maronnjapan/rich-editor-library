@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Noto+Sans+JP);
+export const stylesStr = `@import url(https://fonts.googleapis.com/css?family=Noto+Sans+JP);
 .h1-cc9 {
     font-size: 32px;
     margin-bottom: 24px;
@@ -341,4 +341,4 @@
 .Collapsible__collapsed-6bf42b .Collapsible__content-3dca44 {
     display: none;
     user-select: none;
-}
+}`

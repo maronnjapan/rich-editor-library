@@ -1,0 +1,1 @@
+export const styles = {"Message__container":"Message__container-974de5","Message__title":"Message__title-21bb77","Message__content":"Message__content-1a1897","Message__content_alert":"Message__content_alert-852e09","Message__content_warning":"Message__content_warning-3a9c0c"}

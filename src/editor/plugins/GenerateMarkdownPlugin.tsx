@@ -3,7 +3,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $convertToMarkdownString } from '@lexical/markdown';
 import { TRANSFORMER_PATTERNS } from './MarkdownPlugin';
 
-export default function GenerateMarkdonwPlugin() {
+export default function GenerateMarkdownPlugin() {
   const [editor] = useLexicalComposerContext();
 
   const generateHtml = async () => {
@@ -15,7 +15,7 @@ export default function GenerateMarkdonwPlugin() {
   };
 
   return (
-    <button className="p-2 bg-cyan-500" onClick={generateHtml}>
+    <button className="p-2 bg-gray-700 text-white" onClick={generateHtml}>
       Markdonw変換
     </button>
   );

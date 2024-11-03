@@ -94,3 +94,32 @@
 
 //     return baseNode;
 // }
+
+
+import { CodeHighlightNode } from '@lexical/code';
+import { LexicalEditor, DOMExportOutput, EditorConfig } from 'lexical';
+export class CustomCodeNode extends CodeHighlightNode {
+    createDOM(config: EditorConfig): HTMLElement {
+        const baseElement = super.createDOM(config)
+        baseElement.id = Math.random().toString(32).substring(2);
+        return baseElement;
+    }
+    exportDOM(editor: LexicalEditor): DOMExportOutput {
+
+        const { element, after } = super.exportDOM(editor)
+        return { element, after }
+    }
+
+
+    static getType(): string {
+        return 'custom-code-highlight';
+    }
+
+    exportJSON() {
+        return {
+            ...super.exportJSON(),
+            type: 'custom-code-highlight',
+        };
+    }
+
+}

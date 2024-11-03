@@ -20,7 +20,7 @@ import {
 } from 'lexical';
 import { $isCollapsibleContainerNode } from './container-node';
 import { $isCollapsibleContentNode } from './content-node';
-import styles from './styles/style.module.css';
+import { styles } from './styles/styles';
 
 type SerializedCollapsibleTitleNode = SerializedElementNode;
 

@@ -18,7 +18,7 @@ import {
   SerializedElementNode,
   Spread,
 } from 'lexical';
-import styles from './styles/style.module.css';
+import { styles } from './styles/styles';
 
 type SerializedCollapsibleContainerNode = Spread<
   {

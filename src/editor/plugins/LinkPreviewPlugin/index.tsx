@@ -1,9 +1,11 @@
-import LinkPreviewRegister from './register';
+import LinkPreviewRegister, { LinkPreviewRegisterProps } from './register';
 
-export default function LinkPreviewPlugin() {
+export type LinkPreviewPluginProps = LinkPreviewRegisterProps
+
+export default function LinkPreviewPlugin({ loadHtml }: LinkPreviewPluginProps) {
   return (
     <>
-      <LinkPreviewRegister></LinkPreviewRegister>
+      <LinkPreviewRegister loadHtml={loadHtml}></LinkPreviewRegister>
     </>
   );
 }

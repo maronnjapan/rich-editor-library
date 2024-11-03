@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { globSync } from 'glob'
 import * as path from 'path'
 
-const pathes = globSync('./src/**/style-for-gen.css')
+const paths = globSync('./src/**/style-for-gen.css')
 
 function generateHash(str: string) {
     // 単純なハッシュ関数の例（実際の用途に応じて別のハッシュ関数を使用可能）
@@ -16,8 +16,9 @@ function generateHash(str: string) {
 }
 
 function processCSS(cssString: string) {
+    const selectorNeiborhoodPattern = '(?=[[\\s{,:}])'
     // クラスセレクターを抽出する正規表現
-    const classRegex = /\.([a-zA-Z0-9-_]+)(?=[\s{,:}])/g;
+    const classRegex = new RegExp(`\\.([a-zA-Z0-9-_]+)${selectorNeiborhoodPattern}`, 'g')
 
     // ユニークなクラス名を格納
     const uniqueClasses = new Set<string>();
@@ -38,7 +39,7 @@ function processCSS(cssString: string) {
     // CSSの内容を置換
     let processedCSS = cssString;
     Object.entries(classMapping).forEach(([originalClass, hashedClass]) => {
-        const regex = new RegExp(`\\.${originalClass}(?=[\\s{,:}])`, 'g');
+        const regex = new RegExp(`\\.${originalClass}${selectorNeiborhoodPattern}`, 'g');
         processedCSS = processedCSS.replace(regex, `.${hashedClass}`);
     });
 
@@ -50,15 +51,17 @@ function processCSS(cssString: string) {
 
 
 const styles: string[] = []
-pathes.forEach(absoletePath => {
-    const readFile = fs.readFileSync(absoletePath)
+paths.forEach(absolutePath => {
+    const readFile = fs.readFileSync(absolutePath)
 
     const { classMapping, processedCSS } = processCSS(readFile.toString())
 
-    fs.writeFileSync(path.join(path.dirname(absoletePath), 'styles.ts'), `export const styles = ${JSON.stringify(classMapping)}`)
+    fs.writeFileSync(path.join(path.dirname(absolutePath), 'styles.ts'), `export const styles = ${JSON.stringify(classMapping)}`)
     styles.push(processedCSS)
 })
-fs.writeFileSync(path.join(process.cwd(), 'src/global-style.css'), `@import url(https://fonts.googleapis.com/css?family=Noto+Sans+JP);\n${styles.join(' ')}`)
+const stylesStr = `@import url(https://fonts.googleapis.com/css?family=Noto+Sans+JP);\n${styles.join(' ')}`;
+fs.writeFileSync(path.join(process.cwd(), 'src/global-style.css'), stylesStr)
+fs.writeFileSync(path.join(process.cwd(), 'src/style-const.ts'), `export const stylesStr = ${'`' + stylesStr + '`'}`)
 
 
 

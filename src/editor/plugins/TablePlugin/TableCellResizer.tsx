@@ -420,10 +420,6 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
       };
 
       const tableRect = tableRectRef.current;
-
-      console.log(styles);
-      console.log(draggingDirection, mouseCurrentPos);
-      console.log(tableRect);
       if (draggingDirection && mouseCurrentPos && tableRect) {
         if (isHeightChanging(draggingDirection)) {
           styles[draggingDirection].left = `${window.pageXOffset + tableRect.left}px`;

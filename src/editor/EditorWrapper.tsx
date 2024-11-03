@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, createContext, ReactNode, useState } from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
@@ -15,8 +15,6 @@ import { theme } from './theme/editorTheme';
 import { CodeHighlightPlugin } from './plugins/CodeHighlightPlugin';
 import { MarkdownPlugin, TRANSFORMER_PATTERNS } from './plugins/MarkdownPlugin';
 import ImportPlugin from './plugins/ImportPlugin';
-import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
-import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import LinkPreviewPlugin, { LinkPreviewPluginProps } from './plugins/LinkPreviewPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 import MessagePlugin from './plugins/MessagePlugin';
@@ -45,7 +43,6 @@ interface CustomFloatEditorPlugin {
 }
 
 type AutoSavePluginConfig = Required<Omit<AutoSavePluginProps, UnionPick<keyof AutoSavePluginProps, 'editorName'>>>
-export type LinkPreviewPluginConfig = LinkPreviewPluginProps
 
 interface InitialEditorConfig {
   editorName: string;
@@ -54,15 +51,21 @@ interface InitialEditorConfig {
   contentConfig?: { content: string, contentType: 'markdown' | 'editorStateJson' };
 }
 
-export interface EditorProps {
+export type LinkPreviewPluginConfig = LinkPreviewPluginProps
+
+export const FloatingAnchorElmContext = createContext<null | HTMLDivElement>(null)
+
+
+export interface EditorWrapperProps {
+  children?: ReactNode
   initialEditorConfig: InitialEditorConfig
-  customs?: CustomEditorPlugin[],
-  floatCustoms?: CustomFloatEditorPlugin[],
+  customs?: CustomEditorPlugin[];
+  floatCustoms?: CustomFloatEditorPlugin[];
   autoSavePluginConfig?: AutoSavePluginConfig
   linkPreviewPluginConfig?: LinkPreviewPluginConfig;
 }
 
-export const Editor = ({ initialEditorConfig, customs = [], floatCustoms = [], autoSavePluginConfig, linkPreviewPluginConfig }: EditorProps) => {
+export const EditorWrapper = ({ children, initialEditorConfig, customs = [], floatCustoms = [], autoSavePluginConfig, linkPreviewPluginConfig }: EditorWrapperProps) => {
   const { editorName, contentConfig, isAutoFocus, isResizeEditor } = initialEditorConfig
   const customNodes = customs.map(custom => custom.node).filter(n => n !== null)
   const customFloatNodes = floatCustoms.map(custom => custom.node).filter(c => c !== null)
@@ -76,7 +79,6 @@ export const Editor = ({ initialEditorConfig, customs = [], floatCustoms = [], a
       : undefined,
   }
 
-  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
@@ -87,27 +89,35 @@ export const Editor = ({ initialEditorConfig, customs = [], floatCustoms = [], a
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className={styles.editorContainer}>
+      <FloatingAnchorElmContext.Provider value={floatingAnchorElem}>
+        <div className={styles.editorContainer}>
 
-        <RichTextPlugin
-          contentEditable={
-            <div ref={onRef} className={styles['contentEditable-wrapper']}>
-              <ToolBarPlugin></ToolBarPlugin>
+          <RichTextPlugin
+            contentEditable={
+              <div ref={onRef} className={styles['contentEditable-wrapper']}>
 
-              <ContentEditable
-                className={`${styles.contentEditable} ${isResizeEditor ? 'resize' : ''} `}
-              />
-              <div>
-                <GenerateMarkdonwPlugin></GenerateMarkdonwPlugin>
-                <GenerateHtmlPlugin></GenerateHtmlPlugin>
+                {children ? children :
+                  <>
+                    <ToolBarPlugin></ToolBarPlugin>
+
+                    <ContentEditable
+                      className={`${styles.contentEditable} ${isResizeEditor ? 'resize' : ''} `}
+                    />
+                    <div>
+                      <GenerateMarkdonwPlugin></GenerateMarkdonwPlugin>
+                      <GenerateHtmlPlugin></GenerateHtmlPlugin>
+                    </div>
+                  </>
+                }
+
               </div>
-            </div>
-          }
-          placeholder={<div ></div>}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
+            }
+            placeholder={<div ></div>}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
 
-      </div>
+        </div>
+      </FloatingAnchorElmContext.Provider>
       {isAutoFocus ? <AutoFocusPlugin></AutoFocusPlugin> : null}
       <ClickableLinkPlugin></ClickableLinkPlugin>
       <HistoryPlugin />
@@ -129,20 +139,6 @@ export const Editor = ({ initialEditorConfig, customs = [], floatCustoms = [], a
       <MessagePlugin></MessagePlugin>
       <EmbedExternalSystemPlugin></EmbedExternalSystemPlugin>
       <AutoSavePlugin editorName={editorName} {...autoSavePluginConfig}></AutoSavePlugin>
-      {!!floatingAnchorElem && (
-        <>
-          <FloatingLinkEditorPlugin
-            anchorElem={floatingAnchorElem}
-            isLinkEditMode={isLinkEditMode}
-            setIsLinkEditMode={setIsLinkEditMode}
-            canSetLinkPreview={!!linkPreviewPluginConfig}
-          ></FloatingLinkEditorPlugin>
-          <FloatingTextFormatToolbarPlugin
-            anchorElem={floatingAnchorElem}
-          ></FloatingTextFormatToolbarPlugin>
-          {floatCustoms.map(custom => custom.registerPlugin)}
-        </>
-      )}
       {customs.map(custom => custom.registerPlugin)}
     </LexicalComposer>
   );

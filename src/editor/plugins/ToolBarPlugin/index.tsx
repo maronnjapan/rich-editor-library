@@ -29,7 +29,6 @@ import {
   TbList,
   TbListNumbers,
   TbQuote,
-  TbSelect,
   TbSquareToggle,
   TbTable,
 } from 'react-icons/tb';
@@ -44,8 +43,6 @@ import { $isCollapsibleContainerNode } from '../CollapsiblePlugin/container-node
 import { $isCollapsibleContentNode } from '../CollapsiblePlugin/content-node';
 import { INSERT_TABLE_COMMAND, $isTableRowNode, $isTableCellNode } from '@lexical/table';
 import SelectTableCells from './SelectTableCells';
-import toolBarStyles from './style';
-import { props } from '@stylexjs/stylex';
 
 const HeadingBlocks: { [key in HeadingTagType]: string } = {
   h1: 'Heading 1',
@@ -219,7 +216,7 @@ export default function ToolBarPlugin() {
   };
 
   return (
-    <div {...props(toolBarStyles.toolbar)}>
+    <div className=" bg-slate-50 top-0 sticky gap-2 items-center flex py-2 px-6 z-50">
       <button
         type="button"
         role="checkbox"
@@ -400,7 +397,7 @@ export default function ToolBarPlugin() {
         </div>
       </div>
       {blockType === 'code' && (
-        <div {...props(toolBarStyles.select)}>
+        <div className='relative'>
           <select
             aria-label="code languages"
             value={codeLanguage}
@@ -413,7 +410,6 @@ export default function ToolBarPlugin() {
               </option>
             ))}
           </select>
-          <TbSelect />
         </div>
       )}
     </div>
