@@ -30,6 +30,8 @@ import { UnionPick } from '../utils/utility-type';
 import styles from './styles/Editor.module.css';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { CodeNode } from '@lexical/code'
+import { CustomCodeNode } from './plugins/CustomCodeCodePlugin/node';
 
 
 interface CustomEditorPlugin {
@@ -72,7 +74,12 @@ export const EditorWrapper = ({ children, initialEditorConfig, customs = [], flo
   const initialConfig: ComponentProps<typeof LexicalComposer>['initialConfig'] = {
     namespace: editorName,
     onError: (error) => console.error(error),
-    nodes: [...nodes, ...customNodes, ...customFloatNodes],
+    nodes: [...nodes, {
+      replace: CodeNode,
+      with(node: CodeNode) {
+        return new CustomCodeNode(node.getLanguage())
+      },
+    }, ...customNodes, ...customFloatNodes],
     theme: theme,
     editorState: contentConfig?.contentType === 'markdown'
       ? () => $convertFromMarkdownString(contentConfig?.content ?? '', TRANSFORMER_PATTERNS)

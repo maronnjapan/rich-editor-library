@@ -12,6 +12,7 @@ import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
 import { TweetNode } from './plugins/EmbedExternalSystemPlugin/TwitterPlugin/node';
 import { YouTubeNode } from './plugins/EmbedExternalSystemPlugin/YoutubePlugin/node';
 import { FigmaNode } from './plugins/EmbedExternalSystemPlugin/FigmaPlugin/node';
+import { CustomCodeNode } from './plugins/CustomCodeCodePlugin/node';
 
 export const nodes: Klass<LexicalNode>[] = [
   HeadingNode,
@@ -19,6 +20,7 @@ export const nodes: Klass<LexicalNode>[] = [
   ListNode,
   ListItemNode,
   CodeNode,
+  CustomCodeNode,
   CodeHighlightNode,
   LinkNode,
   AutoLinkNode,

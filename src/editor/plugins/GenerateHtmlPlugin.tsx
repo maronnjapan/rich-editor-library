@@ -13,7 +13,9 @@ export function GenerateHtmlPlugin({ onClickGenerateBtn }: GenerateHtmlPluginPro
   const generateHtml = async () => {
     editor.update(async () => {
       const htmlString = $generateHtmlFromNodes(editor);
-      const htmlWithStyles = `<style>${stylesStr}</style>${htmlString}`
+      const htmlWithStyles = `<style>${stylesStr}</style>${htmlString.replace(/(data-gutter=")([^"]*?)(")/g, (_, p1, p2: string, p3) => {
+        return p1 + p2.replace(/amp;/g, '') + p3;
+      })}`
       if (onClickGenerateBtn) {
         onClickGenerateBtn(htmlWithStyles)
         return

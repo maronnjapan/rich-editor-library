@@ -9,12 +9,13 @@ import {
   createCommand,
 } from 'lexical'
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
+import { registerCodeDataGutter } from './CustomCodeCodePlugin';
 
 export const CodeHighlightPlugin = () => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    return mergeRegister(registerCodeHighlighting(editor), registerCodeLanguageSelecting(editor));
+    return mergeRegister(registerCodeHighlighting(editor), registerCodeLanguageSelecting(editor), registerCodeDataGutter(editor));
   }, [editor]);
 
   return null;
