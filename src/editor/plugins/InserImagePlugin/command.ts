@@ -6,7 +6,7 @@ export type InsertImagePayload = Readonly<ImagePayload>
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> = createCommand('INSERT_IMAGE_COMMAND')
 
 
-export const uploadImage = async (file: File, editor: LexicalEditor) => {
+export const uploadImage = async (_: File, __: LexicalEditor) => {
     // const { url, fileId } = await createPresignedUrlAction(file.name)
 
     // await axios.put(url, file, { headers: { "Content-Type": 'image/' } })

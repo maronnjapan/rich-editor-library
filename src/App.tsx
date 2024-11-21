@@ -1,6 +1,5 @@
 
 import { EditorProps } from './editor/Editor'
-import { useEditorState } from './editor/hooks/use-state-editor'
 import './output.css'
 import './global-style.css'
 import { EditorWrapper } from './editor/EditorWrapper'
@@ -35,12 +34,6 @@ const initialConfig: EditorProps = {
 }
 
 function App() {
-
-  const { getEditorValue } = useEditorState(initialConfig.initialEditorConfig.editorName)
-  const onClick = () => {
-    console.log(getEditorValue())
-  }
-
 
   return (
     <div style={{ width: '90%', padding: '1rem', margin: '0 auto' }} >

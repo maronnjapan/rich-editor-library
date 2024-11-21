@@ -31,7 +31,6 @@ const LinkPreviewRegister = ({ loadHtml }: LinkPreviewRegisterProps) => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
           const parent = getSelectedNode(selection).getParent();
-          const node = $createLinkPreviewNode(payload, loadHtml);
 
           if ($isAutoLinkNode(parent)) {
             parent.remove();

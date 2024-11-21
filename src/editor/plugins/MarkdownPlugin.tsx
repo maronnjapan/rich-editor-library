@@ -67,7 +67,7 @@ export const COLLAPSIBLE: ElementTransformer = {
     return ':::details ' + title + '\n' + content + '\n:::';
   },
   replace: (parentNode: ElementNode, children: LexicalNode[], match) => {
-    const [all, title, content] = match;
+    const [all] = match;
     const messageContainer = $createCollapsibleContainerNode(true);
     const messageTitle = $createCollapsibleTitleNode().append(
       $createTextNode(all.replace(':::details ', '').trim())
@@ -94,13 +94,13 @@ export const COLLAPSIBLE: ElementTransformer = {
 
 export const MESSAGE: ElementTransformer = {
   dependencies: [MessageContentNode],
-  export: (node, exportChildren: (node: ElementNode) => string) => {
+  export: (node, _: (node: ElementNode) => string) => {
     if (!$isMessageContentNode(node)) {
       return null;
     }
     return ':::message ' + node.getMessageType() + '\n' + node.getTextContent() + '\n:::';
   },
-  replace: (parentNode: ElementNode, children: LexicalNode[], match) => {
+  replace: (parentNode: ElementNode, _: LexicalNode[], match) => {
     const [all] = match;
 
     const trimMathcText = all.replace(':::message ', '').trim();
@@ -136,7 +136,7 @@ export const ONLY_EXPORT_LINK_CARD: ElementTransformer = {
 
 export const generateLinkCard = (loadHtml: LoadHtml): ElementTransformer => ({
   ...ONLY_EXPORT_LINK_CARD,
-  replace: (node, children, match) => {
+  replace: (node, _, match) => {
     const [, url] = match;
     const linkPreviewNode = $createLinkPreviewNode({ url }, loadHtml);
     node.replace(linkPreviewNode);
@@ -170,7 +170,7 @@ export const TABLE: ElementTransformer = {
 
     return `| ${headerText} |\n| ${headerSeparete} |\n${bodyText}`;
   },
-  replace: (parentNode: ElementNode, children: LexicalNode[], match) => {
+  replace: (parentNode: ElementNode, _: LexicalNode[], match) => {
     const [all] = match;
 
     const createRowNum = Number(all.replace(/.*\|/gi, '').trim());
@@ -213,7 +213,7 @@ export const FIGMA: ElementTransformer = {
     return '@[figma](' + node.getTextContent() + ')';
   },
   // ここから下は一旦使わない
-  replace: (node, match) => {
+  replace: () => {
     // Markdownで実装したいときに使用すること
   },
   regExp: /figma/,
@@ -230,7 +230,7 @@ export const TWITTER: ElementTransformer = {
     return '----tweetEmbed----(' + node.getUrl() + ')';
   },
   // ここから下は一旦使わない
-  replace: (node, match) => {
+  replace: () => {
     // Markdownで使用したいときに実装すること
   },
   regExp: /twitter/,

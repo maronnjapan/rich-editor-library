@@ -51,7 +51,7 @@ export class CollapsibleContainerNode extends ElementNode {
     return new CollapsibleContainerNode(node.__open, node.__key);
   }
 
-  createDOM(config: EditorConfig, editor: LexicalEditor): HTMLElement {
+  createDOM(_: EditorConfig, editor: LexicalEditor): HTMLElement {
     const dom = document.createElement('details');
     dom.classList.add(styles.Collapsible__container);
     dom.open = this.__open;
@@ -74,7 +74,7 @@ export class CollapsibleContainerNode extends ElementNode {
 
   static importDOM(): DOMConversionMap<HTMLDetailsElement> | null {
     return {
-      details: (domNode: HTMLDetailsElement) => {
+      details: (_: HTMLDetailsElement) => {
         return {
           conversion: convertDetailsElement,
           priority: 1,

@@ -17,7 +17,7 @@ import {
   ListType,
 } from '@lexical/list';
 import { $setBlocksType } from '@lexical/selection';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   TbAlertCircle,
   TbChecklist,
@@ -83,7 +83,7 @@ export default function ToolBarPlugin() {
   const [blockType, setBlockType] = useState<BlockType>('paragraph');
   const [codeLanguage, setCodeLanguage] = useState('');
   const [editor] = useLexicalComposerContext();
-  const fileInput = useRef<HTMLInputElement>(null);
+  // const fileInput = useRef<HTMLInputElement>(null);
   const [isShowTableInsertElm, setIsShowTableInsertElm] = useState(false);
   const [isShowMessageInsertElm, setIsShowMessageInsertElm] = useState(false);
 
@@ -208,12 +208,12 @@ export default function ToolBarPlugin() {
     }
   }, [blockType, editor]);
 
-  const clickFileInput = () => {
-    const fileInputRef = fileInput.current;
-    if (fileInputRef) {
-      fileInputRef.click();
-    }
-  };
+  // const clickFileInput = () => {
+  //   const fileInputRef = fileInput.current;
+  //   if (fileInputRef) {
+  //     fileInputRef.click();
+  //   }
+  // };
 
   return (
     <div className=" bg-slate-50 top-0 sticky gap-2 items-center flex py-2 px-6 z-50">

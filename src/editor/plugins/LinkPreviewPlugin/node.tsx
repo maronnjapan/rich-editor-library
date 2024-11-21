@@ -112,13 +112,13 @@ export class LinkPreviewNode extends DecoratorBlockNode {
       caption: this._caption.toJSON(),
       url: this._url,
       loadHtml: this._loadHtml,
-      type: 'link-preview',
+      type: linkType,
       version: 1,
     };
   }
 
   static getType(): string {
-    return 'link-preview';
+    return linkType;
   }
 
   constructor(url: string, loadHtml: LoadHtml, caption?: LexicalEditor, format?: ElementFormatType, key?: NodeKey) {

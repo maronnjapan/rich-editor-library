@@ -20,7 +20,6 @@ import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
 } from '@lexical/react/LexicalDecoratorBlockNode';
-import * as React from 'react';
 
 type FigmaComponentProps = Readonly<{
   className: Readonly<{
@@ -99,7 +98,7 @@ export class FigmaNode extends DecoratorBlockNode {
     return `https://www.figma.com/file/${this.__id}`;
   }
 
-  decorate(_editor: LexicalEditor, config: EditorConfig): JSX.Element {
+  decorate(_editor: LexicalEditor, _: EditorConfig): JSX.Element {
     const className = {
       base: 'w-fit border',
       focus: 'w-fit',

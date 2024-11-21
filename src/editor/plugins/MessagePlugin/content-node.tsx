@@ -35,7 +35,7 @@ export class MessageContentNode extends ElementNode {
     this._messageType = messageType ?? '';
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  createDOM(_: EditorConfig): HTMLElement {
     const dom = document.createElement('aside');
     dom.classList.add(styles.Message__content);
 

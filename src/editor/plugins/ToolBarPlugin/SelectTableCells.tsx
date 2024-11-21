@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import React, { KeyboardEvent, useCallback, useState } from 'react';
+import { KeyboardEvent, useCallback, useState } from 'react';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
 import { BlockType } from '.';
 
@@ -59,9 +59,8 @@ const SelectTableCells = ({ blockType }: SelectTableCellsProps) => {
         columsIndex.map((colIndex) => (
           <div
             key={`${rowIndex}-${colIndex}`}
-            className={`w-[20px] h-[20px] border border-black cursor-pointer ${
-              isSelected(rowIndex, colIndex) ? 'bg-blue-300' : 'bg-white'
-            }`}
+            className={`w-[20px] h-[20px] border border-black cursor-pointer ${isSelected(rowIndex, colIndex) ? 'bg-blue-300' : 'bg-white'
+              }`}
             onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
             onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
             onKeyDown={handleKeyDown}

@@ -17,7 +17,7 @@ import { $createFigmaNode } from './FigmaPlugin/node';
 export default function EmbedExternalSystemPlugin() {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
+    return editor.registerUpdateListener(() => {
       editor.update(() => {
         const selection = $getSelection();
         if (!$isRangeSelection(selection)) {
