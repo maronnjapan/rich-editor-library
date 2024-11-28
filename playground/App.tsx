@@ -1,14 +1,14 @@
 
-import { EditorProps } from './editor/Editor'
-import './output.css'
-import './global-style.css'
-import { EditorWrapper } from './editor/EditorWrapper'
-import { EditorFloatPluginWrapper } from './editor/EditorFloatPluginWrapper'
-import ToolBarPlugin from './editor/plugins/ToolBarPlugin'
+import { EditorProps } from '../lib/editor/Editor'
+import '../lib/output.css'
+import '../lib/global-style.css'
+import { EditorWrapper } from '../lib/editor/EditorWrapper'
+import { EditorFloatPluginWrapper } from '../lib/editor/EditorFloatPluginWrapper'
+import { ToolBarPlugin } from '../lib/editor/plugins/ToolBarPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import styles from './editor/styles/Editor.module.css'
-import GenerateMarkdownPlugin from './editor/plugins/GenerateMarkdownPlugin'
-import { GenerateHtmlPlugin } from './editor/plugins/GenerateHtmlPlugin'
+import styles from '../lib/editor/styles/Editor.module.css'
+import { GenerateMarkdownPlugin } from '../lib/editor/plugins/GenerateMarkdownPlugin'
+import { GenerateHtmlPlugin } from '../lib/editor/plugins/GenerateHtmlPlugin'
 
 const loadHtml = async (url: string): Promise<string> => {
   // CORSの制限を回避するためのプロキシサービスを使用
@@ -49,7 +49,6 @@ function App() {
         </div>
         <EditorFloatPluginWrapper></EditorFloatPluginWrapper>
       </EditorWrapper>
-      {/* <Editor {...initialConfig}></Editor> */}
     </div>
   )
 }

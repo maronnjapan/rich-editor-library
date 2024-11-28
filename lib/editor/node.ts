@@ -13,6 +13,7 @@ import { TweetNode } from './plugins/EmbedExternalSystemPlugin/TwitterPlugin/nod
 import { YouTubeNode } from './plugins/EmbedExternalSystemPlugin/YoutubePlugin/node';
 import { FigmaNode } from './plugins/EmbedExternalSystemPlugin/FigmaPlugin/node';
 import { CustomCodeNode } from './plugins/CustomCodeCodePlugin/node';
+import { ImageNode } from './plugins/InserImagePlugin/node';
 
 export const nodes: Klass<LexicalNode>[] = [
   HeadingNode,
@@ -35,4 +36,5 @@ export const nodes: Klass<LexicalNode>[] = [
   TweetNode,
   YouTubeNode,
   FigmaNode,
+  ImageNode
 ];

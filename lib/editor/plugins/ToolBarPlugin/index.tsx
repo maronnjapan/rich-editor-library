@@ -79,7 +79,7 @@ const CodeLanguagesOptions = Object.entries(CODE_LANGUAGE_FRIENDLY_NAME_MAP).map
   ([value, label]) => ({ value, label })
 );
 
-export default function ToolBarPlugin() {
+export function ToolBarPlugin() {
   const [blockType, setBlockType] = useState<BlockType>('paragraph');
   const [codeLanguage, setCodeLanguage] = useState('');
   const [editor] = useLexicalComposerContext();

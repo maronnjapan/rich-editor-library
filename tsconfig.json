@@ -18,7 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*"]
+  "include": ["lib/**/*"]
   // "references": [
   //   { "path": "./tsconfig.app.json" },
   //   { "path": "./tsconfig.node.json" }

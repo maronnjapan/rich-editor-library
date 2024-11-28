@@ -3,7 +3,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $convertToMarkdownString } from '@lexical/markdown';
 import { TRANSFORMER_PATTERNS } from './MarkdownPlugin';
 
-export default function GenerateMarkdownPlugin() {
+export function GenerateMarkdownPlugin() {
   const [editor] = useLexicalComposerContext();
 
   const generateHtml = async () => {

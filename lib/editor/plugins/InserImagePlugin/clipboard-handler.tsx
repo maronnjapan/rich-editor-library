@@ -28,10 +28,8 @@ const ClipboardImageHandler: FC = () => {
                         files,
                         [ACCEPTABLE_IMAGE_TYPES].flatMap((x) => x),
                     );
-                    const reader = new FileReader();
 
                     if (filesResult !== null) {
-                        reader.readAsDataURL(filesResult[0].file);
                         const file = filesResult[0].file
 
                         await uploadImage(file, editor)

@@ -1,7 +1,7 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getRoot, EditorState } from "lexical";
 import { useEffect, useRef } from "react";
-import { editorStateMap } from "../hooks/use-state-editor";
+import { editorStateMap } from "../hooks/use-editor-state";
 
 let isFirst = true;
 
