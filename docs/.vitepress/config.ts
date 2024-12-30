@@ -2,7 +2,6 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/docs',
   title: "Rich Editor Library",
   description: "Lexicalをベースにしたリッチエディタライブラリです",
   themeConfig: {
