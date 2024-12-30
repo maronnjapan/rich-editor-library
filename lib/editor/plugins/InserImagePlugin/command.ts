@@ -6,7 +6,8 @@ export type InsertImagePayload = Readonly<ImagePayload>
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> = createCommand('INSERT_IMAGE_COMMAND')
 
 
-export const uploadImage = async (file: File, editor: LexicalEditor, fetchFileUpload?: (file: File) => Promise<string | undefined> | (string | undefined)) => {
+export type CustomFetchFileUpload = (file: File) => Promise<string | undefined> | (string | undefined)
+export const uploadImage = async (file: File, editor: LexicalEditor, fetchFileUpload?: CustomFetchFileUpload) => {
 
 
     editor.update(async () => {

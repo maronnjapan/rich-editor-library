@@ -30,7 +30,7 @@ import { CodeNode } from '@lexical/code'
 import { CustomCodeNode } from './plugins/CustomCodeCodePlugin/node';
 import '../global-style.css'
 import '../output.css'
-import { InsertImagePlugin } from './plugins/InserImagePlugin';
+import { InsertImagePlugin, InsertImagePluginProps } from './plugins/InserImagePlugin';
 
 
 interface CustomEditorPlugin {
@@ -64,9 +64,10 @@ export interface EditorWrapperProps {
   floatCustoms?: CustomFloatEditorPlugin[];
   autoSavePluginConfig?: AutoSavePluginConfig
   linkPreviewPluginConfig?: LinkPreviewPluginConfig;
+  insertImagePluginConfig?: InsertImagePluginProps
 }
 
-export const EditorWrapper = ({ children, initialEditorConfig, customs = [], floatCustoms = [], autoSavePluginConfig, linkPreviewPluginConfig }: EditorWrapperProps) => {
+export const EditorWrapper = ({ children, initialEditorConfig, customs = [], floatCustoms = [], autoSavePluginConfig, linkPreviewPluginConfig, insertImagePluginConfig }: EditorWrapperProps) => {
   const { editorName, contentConfig, isAutoFocus } = initialEditorConfig
   const customNodes = customs.map(custom => custom.node).filter(n => n !== null)
   const customFloatNodes = floatCustoms.map(custom => custom.node).filter(c => c !== null)
@@ -117,7 +118,7 @@ export const EditorWrapper = ({ children, initialEditorConfig, customs = [], flo
       <HistoryPlugin />
       <ListPlugin></ListPlugin>
       <TablePlugin anchorElm={floatingAnchorElem}></TablePlugin>
-      <InsertImagePlugin></InsertImagePlugin>
+      <InsertImagePlugin {...insertImagePluginConfig}></InsertImagePlugin>
       <CheckListPlugin />
       <MarkdownPlugin></MarkdownPlugin>
       <CodeHighlightPlugin></CodeHighlightPlugin>

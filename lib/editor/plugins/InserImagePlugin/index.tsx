@@ -1,9 +1,10 @@
-import ClipboardImageHandler from "./clipboard-handler";
+import { ClipboardImageHandler, ClipboardImageHandlerProps } from "./clipboard-handler";
 import { ImageRegister } from "./register";
 
-export function InsertImagePlugin() {
+export type InsertImagePluginProps = ClipboardImageHandlerProps
+export function InsertImagePlugin({ customFetchFileUpload }: InsertImagePluginProps) {
     return <>
         <ImageRegister></ImageRegister>
-        <ClipboardImageHandler></ClipboardImageHandler>
+        <ClipboardImageHandler customFetchFileUpload={customFetchFileUpload}></ClipboardImageHandler>
     </>
 }

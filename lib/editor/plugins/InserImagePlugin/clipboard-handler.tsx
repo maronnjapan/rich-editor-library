@@ -1,23 +1,38 @@
 import { COMMAND_PRIORITY_LOW } from 'lexical';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { DRAG_DROP_PASTE } from '@lexical/rich-text';
 import { mediaFileReader } from '@lexical/utils';
-import { uploadImage } from './command';
+import { CustomFetchFileUpload, uploadImage } from './command';
 
 
 
 
 const ACCEPTABLE_IMAGE_TYPES = [
-    'image/',
-    'image/heic',
-    'image/heif',
-    'image/gif',
-    'image/webp',
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/svg+xml",
+    "image/webp",
+    "image/tiff",
+    "image/bmp",
+    "image/x-icon",
+    "image/vnd.microsoft.icon",
+    "image/heic",
+    "image/heif",
+    "image/avif",
+    "image/x-ms-bmp",
+    "image/jp2",
+    "image/jxl",
+    "image/apng"
 ];
 
-const ClipboardImageHandler: FC = () => {
+
+export interface ClipboardImageHandlerProps {
+    customFetchFileUpload?: CustomFetchFileUpload
+}
+export const ClipboardImageHandler = ({ customFetchFileUpload }: ClipboardImageHandlerProps) => {
     const [editor] = useLexicalComposerContext();
     useEffect(() => {
         return editor.registerCommand(
@@ -32,7 +47,7 @@ const ClipboardImageHandler: FC = () => {
                     if (filesResult !== null) {
                         const file = filesResult[0].file
 
-                        await uploadImage(file, editor)
+                        await uploadImage(file, editor, customFetchFileUpload)
 
 
                     }
@@ -45,4 +60,3 @@ const ClipboardImageHandler: FC = () => {
     return null;
 };
 
-export default ClipboardImageHandler;
