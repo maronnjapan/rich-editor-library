@@ -49,6 +49,7 @@ export interface InitialEditorConfig {
   editorName: string;
   isAutoFocus?: boolean;
   isResizeEditor?: boolean;
+  isEditMode?: boolean;
   contentConfig?: { content: string, contentType: 'markdown' | 'editorStateJson' };
 }
 
@@ -68,7 +69,7 @@ export interface EditorWrapperProps {
 }
 
 export const EditorWrapper = ({ children, initialEditorConfig, customs = [], floatCustoms = [], autoSavePluginConfig, linkPreviewPluginConfig, insertImagePluginConfig }: EditorWrapperProps) => {
-  const { editorName, contentConfig, isAutoFocus } = initialEditorConfig
+  const { editorName, contentConfig, isAutoFocus, isEditMode } = initialEditorConfig
   const customNodes = customs.map(custom => custom.node).filter(n => n !== null)
   const customFloatNodes = floatCustoms.map(custom => custom.node).filter(c => c !== null)
   const initialConfig: ComponentProps<typeof LexicalComposer>['initialConfig'] = {
@@ -81,6 +82,7 @@ export const EditorWrapper = ({ children, initialEditorConfig, customs = [], flo
       },
     }, ...customNodes, ...customFloatNodes],
     theme: theme,
+    editable: isEditMode,
     editorState: contentConfig?.contentType === 'markdown'
       ? () => $convertFromMarkdownString(contentConfig?.content ?? '', TRANSFORMER_PATTERNS)
       : undefined,

@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { globSync } from 'glob'
 import * as path from 'path'
 
-const paths = globSync('./src/**/style-for-gen.css')
+const paths = globSync('./lib/**/style-for-gen.css')
 
 function generateHash(str: string) {
     // 単純なハッシュ関数の例（実際の用途に応じて別のハッシュ関数を使用可能）
@@ -60,8 +60,8 @@ paths.forEach(absolutePath => {
     styles.push(processedCSS)
 })
 const stylesStr = `@import url(https://fonts.googleapis.com/css?family=Noto+Sans+JP);\n${styles.join(' ')}`;
-fs.writeFileSync(path.join(process.cwd(), 'src/global-style.css'), stylesStr)
-fs.writeFileSync(path.join(process.cwd(), 'src/style-const.ts'), `export const stylesStr = ${'`' + stylesStr + '`'}`)
+fs.writeFileSync(path.join(process.cwd(), 'lib/global-style.css'), stylesStr)
+fs.writeFileSync(path.join(process.cwd(), 'lib/style-const.ts'), `export const stylesStr = ${'`' + stylesStr + '`'}`)
 
 
 

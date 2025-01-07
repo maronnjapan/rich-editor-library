@@ -29,6 +29,7 @@ export default function EmbedExternalSystemPlugin() {
         const youtubeId = $getYoutubeVideoId(url);
         const figmaId = $getFigmaId(url);
 
+
         if ($isTweetUrl(url) && tweetId) {
           node.remove();
           $insertNodes([$createTweetNode(tweetId, url), $createParagraphNode()]);

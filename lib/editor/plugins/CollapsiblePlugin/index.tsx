@@ -62,6 +62,7 @@ export default function CollapsiblePlugin(): null {
 
     const onEscapeUp = () => {
       const selection = $getSelection();
+      console.log('selection', selection)
       if (
         $isRangeSelection(selection) &&
         selection.isCollapsed() &&
