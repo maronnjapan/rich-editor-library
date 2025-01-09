@@ -42,7 +42,7 @@ export class CollapsibleContentNode extends ElementNode {
   }
 
   updateDOM(_: CollapsibleContentNode, __: HTMLElement): boolean {
-    return true;
+    return false;
   }
 
   static importDOM(): DOMConversionMap | null {
