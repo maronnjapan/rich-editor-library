@@ -23,8 +23,9 @@ export interface LinkPreviewProps {
   url: string;
   nodeKey: NodeKey
   loadHtml: LoadHtml
+  id: string;
 }
-const LinkPreview = ({ url, nodeKey, loadHtml }: LinkPreviewProps) => {
+const LinkPreview = ({ url, nodeKey, loadHtml, id }: LinkPreviewProps) => {
   const [ogcContent, setOgcContent] = useState<SuccessResult['result'] | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -32,7 +33,6 @@ const LinkPreview = ({ url, nodeKey, loadHtml }: LinkPreviewProps) => {
     (async () => {
       for (let i = 0; i < 10; i++) {
         try {
-          alert(loadHtml)
           const html = await loadHtml(url)
           const result = await ogs({ html: html })
           setOgcContent(result.error ? undefined : result.result)
@@ -70,7 +70,7 @@ const LinkPreview = ({ url, nodeKey, loadHtml }: LinkPreviewProps) => {
 
         </div> :
           ogcContent ?
-            <a href={url} target="_blank" referrerPolicy='no-referrer'>
+            <a href={url} target="_blank" referrerPolicy='no-referrer' data-lexical-link-preview-id={id}>
               <div className={styles['link-preview-container']}>
                 <figure className={styles['link-preview-card-image-container']}>
                   <img src={ogcContent.ogImage?.[0].url ?? './noimage.png'} alt="ページアイコン" className={styles['link-preview-card-image']} style={ogcContent.ogImage?.[0].url ? {} : { filter: 'invert(70%)' }} />
@@ -92,7 +92,7 @@ export interface LinkPreviewPayload {
   key?: NodeKey;
   caption?: LexicalEditor;
 }
-const linkType = 'link-preview';
+const linkType = 'link-preview-node';
 type LinkPreviewAttributes = {
   url: string;
   loadHtml: LoadHtml
@@ -104,7 +104,8 @@ type SerializedLinkPreviewNode = Spread<LinkPreviewAttributes, SerializedDecorat
 export class LinkPreviewNode extends DecoratorBlockNode {
   _url: string;
   _caption: LexicalEditor;
-  _loadHtml: LoadHtml
+  _loadHtml: LoadHtml;
+  _id: string;
 
   exportJSON(): SerializedLinkPreviewNode {
     return {
@@ -126,10 +127,11 @@ export class LinkPreviewNode extends DecoratorBlockNode {
     this._url = url;
     this._loadHtml = loadHtml;
     this._caption = caption || createEditor();
+    this._id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
   static clone(node: LinkPreviewNode): LinkPreviewNode {
-    return new LinkPreviewNode(node._url, node._loadHtml);
+    return new LinkPreviewNode(node._url, node._loadHtml, node._caption, node.__format, node.__key);
   }
 
   getUrl(): string {
@@ -137,15 +139,23 @@ export class LinkPreviewNode extends DecoratorBlockNode {
   }
 
   exportDOM(): DOMExportOutput {
-    const element = document.createElement('iframe');
-    element.setAttribute('src', this._url);
+
+    const element = document.createElement('div');
+    element.style.position = 'relative';
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', this._url);
+    linkElement.setAttribute('target', '_blank');
+    linkElement.setAttribute('referrerPolicy', 'no-referrer');
+    const childHtml = document.querySelector(`[data-lexical-link-preview-id="${this._id}"]`)?.innerHTML;
+    linkElement.innerHTML = childHtml ?? '';
+    element.appendChild(linkElement);
     return { element };
   }
 
   decorate(): JSX.Element {
     return (
       <Suspense>
-        <LinkPreview url={this._url} loadHtml={this._loadHtml} nodeKey={this.__key}></LinkPreview>
+        <LinkPreview id={this._id} url={this._url} loadHtml={this._loadHtml} nodeKey={this.__key}></LinkPreview>
       </Suspense>
     );
   }

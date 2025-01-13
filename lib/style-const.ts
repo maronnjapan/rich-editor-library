@@ -278,6 +278,8 @@ export const stylesStr = `@import url(https://fonts.googleapis.com/css?family=No
 .link-preview-card-image-container-51da1c {
     margin: 0;
     background-color: #efefef;
+    width: 100%;
+    max-width: 165px;
 }
 
 .link-preview-card-image-6d01ff {

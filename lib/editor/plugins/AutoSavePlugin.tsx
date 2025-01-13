@@ -1,12 +1,15 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getRoot, EditorState } from "lexical";
+import { $getRoot } from "lexical";
 import { useEffect, useRef } from "react";
-import { editorStateMap } from "../hooks/use-editor-state";
-
+import { editorStateMap, EditorValue } from "../hooks/use-editor-state";
+import { $generateHtmlFromNodes } from '@lexical/html';
+import { $convertToMarkdownString } from '@lexical/markdown';
+import { stylesStr } from "../../style-const";
+import { TRANSFORMER_PATTERNS } from "./MarkdownPlugin";
 let isFirst = true;
 
 export interface AutoSavePluginProps {
-    onAutoSave?: (value: { editorState: EditorState, editorStateStr: string, plainText: string }) => void | Promise<void>
+    onAutoSave?: (value: EditorValue) => void | Promise<void>
     saveTimeIntervalPerMs?: number;
     editorName: string;
 }
@@ -34,7 +37,12 @@ export const AutoSavePlugin = ({ onAutoSave, saveTimeIntervalPerMs = 1000, edito
                     editorState.toJSON(),
                 );
                 const plainText = $getRoot().getTextContent();
-                editorStateMap.set(editorName, { editorState, editorStateStr, plainText })
+                const htmlString = $generateHtmlFromNodes(editor);
+                const htmlWithStyles = `<style>${stylesStr}</style>${htmlString.replace(/(data-gutter=")([^"]*?)(")/g, (_, p1, p2: string, p3) => {
+                    return p1 + p2.replace(/amp;/g, '') + p3;
+                })}`
+                const markdownStr = $convertToMarkdownString(TRANSFORMER_PATTERNS);
+                editorStateMap.set(editorName, { editorState, editorStateStr, plainText, htmlStr: htmlWithStyles, markdownStr })
 
                 // 登録しているsettimeout関数の処理があれば削除する
                 if (timer.current) {
@@ -42,7 +50,7 @@ export const AutoSavePlugin = ({ onAutoSave, saveTimeIntervalPerMs = 1000, edito
                 }
                 // refにsettimeout関数を代入する
                 timer.current = setTimeout(async () => {
-                    await onAutoSave?.({ editorState, plainText, editorStateStr })
+                    await onAutoSave?.({ editorState, plainText, editorStateStr, htmlStr: htmlWithStyles, markdownStr })
                 }, saveTimeIntervalPerMs);
             });
         });

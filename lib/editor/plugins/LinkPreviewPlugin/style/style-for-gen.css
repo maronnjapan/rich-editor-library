@@ -11,6 +11,8 @@
 .link-preview-card-image-container {
     margin: 0;
     background-color: #efefef;
+    width: 100%;
+    max-width: 165px;
 }
 
 .link-preview-card-image {
@@ -22,9 +24,13 @@
 .link-preview-card-content-header {
     font-size: 1rem;
     line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .link-preview-card-content-description {
     font-size: 0.75rem;
-    line-clamp: 3;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
 }
