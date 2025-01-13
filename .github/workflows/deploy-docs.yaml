@@ -19,8 +19,8 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         env:
-          APP_PROJECT_NAME: ${{ vars.APP_PROJECT_NAME }}
+          APP_PROJECT_NAME: ${{ vars.DOCS_PROJECT_NAME }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy docs/.vitepress/dist --project-name=${{ env.APP_PROJECT_NAME }}
+          command: pages deploy docs/.vitepress/dist --project-name=${{ env.DOCS_PROJECT_NAME }}
