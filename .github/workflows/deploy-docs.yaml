@@ -19,7 +19,7 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         env:
-          APP_PROJECT_NAME: ${{ vars.DOCS_PROJECT_NAME }}
+          DOCS_PROJECT_NAME: ${{ vars.DOCS_PROJECT_NAME }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
