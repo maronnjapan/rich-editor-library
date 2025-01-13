@@ -14,6 +14,7 @@ import { useEditorState } from '../lib/editor/hooks/use-editor-state'
 
 const loadHtml = async (url: string): Promise<string> => {
   // CORSの制限を回避するためのプロキシサービスを使用
+  // TODO:ここを自作のAPIに変更すること
   const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
 
   const res = await fetch(proxyUrl);
