@@ -4,14 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      [
-        "lib/**/*",
-        "playground/**/*",
-        "public/**/*",
-        "package.json",
-        "index.html",
-      ]
+    paths: ["docs/**/*", "package.json"]
 
 jobs:
   deploy_app:
@@ -22,7 +15,7 @@ jobs:
         with:
           node-version: 20
       - run: npm i
-      - run: npm run build
+      - run: npm run docs:build
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         env:
@@ -30,4 +23,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=${{ env.APP_PROJECT_NAME }}
+          command: pages deploy docs/.vitepress/dist --project-name=${{ env.APP_PROJECT_NAME }}
