@@ -4,8 +4,7 @@ layout: home
 
 hero:
   name: "Rich Editor Library"
-  text: "Lexicalをベースにしたリッチエディタライブラリです"
-  tagline: My great project tagline
+  text: "カスタム可能なWYSIWYGを簡単に"
   actions:
     - theme: brand
       text: Markdown Examples
