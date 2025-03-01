@@ -280,22 +280,27 @@ export const stylesStr = `@import url(https://fonts.googleapis.com/css?family=No
     background-color: #efefef;
     width: 100%;
     max-width: 165px;
+    height: 100%;
 }
 
 .link-preview-card-image-6d01ff {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .link-preview-card-content-header-3d2d02 {
     font-size: 1rem;
     line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .link-preview-card-content-description-34f067 {
     font-size: 0.75rem;
-    line-clamp: 3;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
 } .Collapsible__container-b7bce7 {
     background: #fcfcfc;
     border: 1px solid #eee;

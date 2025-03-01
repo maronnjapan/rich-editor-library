@@ -160,6 +160,8 @@ export class LinkPreviewNode extends DecoratorBlockNode {
     );
   }
 
+
+
   static importJSON(_serializedNode: SerializedLinkPreviewNode): LinkPreviewNode {
     const { url, loadHtml } = _serializedNode;
     const node = $createLinkPreviewNode({ url }, loadHtml);
