@@ -34,6 +34,7 @@ const LinkPreview = ({ url, nodeKey, loadHtml, id }: LinkPreviewProps) => {
       for (let i = 0; i < 10; i++) {
         try {
           const html = await loadHtml(url)
+          // HTMLからカードを表示するために必要なデータを取得
           const result = await ogs({ html: html })
           setOgcContent(result.error ? undefined : result.result)
           setIsLoading(() => false)

@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths: ["lib/**/*"]
-    tags:
-      - "v*"
+    # tags:
+    #   - "v*"
 
 jobs:
   publish:
@@ -30,7 +30,7 @@ jobs:
         run: npm run build:lib
 
       - name: Publish package
-        if: startsWith(github.ref, 'refs/tags/v')
+        # if: startsWith(github.ref, 'refs/tags/v')
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
