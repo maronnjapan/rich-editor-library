@@ -107,9 +107,17 @@
     font-size: 14px;
     margin: 8px 0;
     tab-size: 2;
-    /* white-space: pre; */
     overflow-x: auto;
     position: relative;
+}
+
+.code-2eaded * {
+    /* Reset all styles inside code blocks */
+    all: revert;
+    font-family: inherit;
+    line-height: inherit;
+    font-size: inherit;
+    white-space: pre;
 }
 
 .code-2eaded::before {
